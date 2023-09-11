@@ -43,9 +43,12 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Array;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -69,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     static String s3="";
     static boolean flag = false;
     static int i = 0;
-//    List<HomeLog> list = new ArrayList<>();
+    List<Post> list = new ArrayList<>();
 
     RecyclerView recyclerView;
 
@@ -95,94 +98,67 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         date2 = yesterdayDate;
         recyclerView = findViewById(R.id.list);
         bug = findViewById(R.id.bug);
-        //fill();
+        fill();
         binding.bottomnav.setBackground(null);
         binding.bottomnav.setOnItemSelectedListener(this);
     }
 
-    @Override
-    protected void onResume() {
-//        list.clear();
-//        if(Login.done == true)
-//            fill();
-        super.onResume();
-//        //fill();
-    }
-
     public void show(){
-//        if(list.size() == 0) {
-//            bug.setText("None of your following have logged in the past 2 days, Start my logging a workout or follow someone");
-//        }
-//        HomeAdapter adapter = new HomeAdapter(this, list, this);
-//        recyclerView.setAdapter(adapter);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        Comparator<Post> dateComparator = new Comparator<Post>() {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            @Override
+            public int compare(Post post1, Post post2) {
+                try {
+                    Date date1 = sdf.parse(post1.getDate());
+                    Date date2 = sdf.parse(post2.getDate());
+
+                    // Compare the dates
+                    return date2.compareTo(date1);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                    return 0; // Handle parsing exception
+                }
+            }
+        };
+        Collections.sort(list, dateComparator);
+        if(list.size() == 0) {
+            bug.setText("None of your following has posted in the past 2 days, Start my posting or follow someone");
+        }
+        else{
+            bug.setText("Your Following Posts for past 2 days");
+        }
+        PostAdapter adapter = new PostAdapter(this, list, this);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
     public void fill(){
-//        //list.clear();
-//        try{
-//            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("users");
-//            databaseReference.addValueEventListener(new ValueEventListener() {
-//                @Override
-//                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                    list.clear();
-//                    for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
-//                        String username = userSnapshot.child("username").getValue(String.class).trim();
-//                        String dateOfJoining = userSnapshot.child("Date").getValue(String.class).trim();
-//                        String UID = userSnapshot.getKey();
-//                        DatabaseReference databaseReference1 = FirebaseDatabase.getInstance().getReference().child("users").child(MainActivity.userId).child("Following");
-//                        databaseReference1.addListenerForSingleValueEvent(new ValueEventListener() {
-//                            @Override
-//                            public void onDataChange(@NonNull DataSnapshot dataSnapshot1) {
-//                                if (dataSnapshot1.hasChild(UID) || UID.equals(MainActivity.userId)) {
-//                                    DatabaseReference logsReference = databaseReference.child(UID).child("Logs");
-//                                    logsReference.addListenerForSingleValueEvent(new ValueEventListener() {
-//                                        @Override
-//                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot2) {
-//                                            if(dataSnapshot2.hasChild(date1)){
-//                                                retrieveLogData(logsReference.child(date1), username, date1, UID);
-////                                            list.add(new HomeLog(R.drawable.ic_launcher_foreground, username, date1, val1.size()>0?val1.get(0):"", val1.size()>1?val1.get(1):"", val1.size()>2?val1.get(2):"", UID));
-////                                            show();
-//                                                //bug.setText("Pooja Pooja Pooja");
-//                                            }
-//                                            if(dataSnapshot2.hasChild(date2)){
-//                                                retrieveLogData(logsReference.child(date2), username, date2, UID);
-////                                            list.add(new HomeLog(R.drawable.ic_launcher_foreground, username, date2, val1.size()>0?val1.get(0):"", val1.size()>1?val1.get(1):"", val1.size()>2?val1.get(2):"", UID));
-////                                            show();
-//                                            }
-//                                            //list.add(new User(username, count, dateOfJoining, R.drawable.ic_launcher_foreground, UID));
-//                                        }
-//                                        @Override
-//                                        public void onCancelled(@NonNull DatabaseError databaseError2) {
-//                                            // bug.setText("Pooja Pooja Pooja");
-//                                            //list.add(new User(username, 0, dateOfJoining, R.drawable.ic_launcher_foreground, UID));
-//                                        }
-//                                    });
-//                                } else {
-//
-//                                }
-//                            }
-//
-//                            @Override
-//                            public void onCancelled(@NonNull DatabaseError databaseError) {
-//                                // Handle the error if necessary
-//                            }
-//                        });
-//                    }
-//                    //show();
-//                }
-//
-//                @Override
-//                public void onCancelled(@NonNull DatabaseError databaseError) {
-//                    // Handle the error if necessary
-//                }
-//            });
-//        }
-//        catch(NullPointerException e){
-//            Intent intent = new Intent(MainActivity.this, Welcome.class);
-//            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-//            startActivity(intent);
-//        }
+        list.clear();
+            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("posts");
+            databaseReference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for(DataSnapshot userSnapshot : snapshot.getChildren()){
+                        try{
+                            String ID = userSnapshot.getKey();
+                            String url = userSnapshot.child("post_image").getValue(String.class).trim();
+                            String caption = userSnapshot.child("post_caption").getValue(String.class).trim();
+                            String UID = ID.substring(0, ID.indexOf(" "));
+                            String date = ID.substring(ID.indexOf(" ") + 1, ID.length());
+                            String name = userSnapshot.child("post_uploader").getValue(String.class).trim();
+                            list.add(new Post(R.drawable.ic_launcher_foreground, name, url, caption,date));
+                            show();
+                        }
+                        catch(Exception e){
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
     }
     public void CheckUser(){
         String filename = "User Details";
@@ -241,12 +217,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(profileIntent);
             return true;
         }
-//        else if (item.getItemId() == R.id.log) {
-//            // Use Intent to navigate to SearchActivity (change SearchActivity with your desired activity class)
-//            Intent searchIntent = new Intent(MainActivity.this, LogActivity.class);
-//            startActivity(searchIntent);
-//            return true;
-//        }
+        else if (item.getItemId() == R.id.post) {
+            // Use Intent to navigate to SearchActivity (change SearchActivity with your desired activity class)
+            Intent searchIntent = new Intent(MainActivity.this, AgreePost.class);
+            startActivity(searchIntent);
+            return true;
+        }
         else if (item.getItemId() == R.id.search){
             Intent searchIntent = new Intent(MainActivity.this, SearchActivity.class);
             startActivity(searchIntent);

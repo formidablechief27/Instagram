@@ -52,6 +52,8 @@
             android:name=".SearchActivity"
             android:label="">
         </activity>
+        <activity android:name=".AgreePost"
+            android:exported="false"></activity>
     </application>
 
 </manifest>

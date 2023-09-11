@@ -18,8 +18,8 @@
     </item>
 
     <item
-        android:id="@+id/log"
-        android:title="Log"
+        android:id="@+id/post"
+        android:title="Post"
         android:icon="@drawable/baseline_add_24"
         >
 </item>

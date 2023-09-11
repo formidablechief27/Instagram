@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/black"
+    android:layout_marginTop="10dp"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:id="@+id/image"
+        >
+    </ImageView>
+
+    <TextView
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/name"
+        android:layout_marginLeft="20dp"
+        android:textColor="@color/white"
+        android:layout_toEndOf="@id/image"
+        tools:text="Name"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        ></TextView>
+
+    <ImageView
+        android:id="@+id/showimage"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_below="@id/name"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_toEndOf="@id/image"></ImageView>
+
+    <TextView
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/caption"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"
+        android:textColor="@color/white"
+        android:layout_toEndOf="@id/image"
+        android:layout_below="@id/showimage"
+        tools:text="Caption : "
+        android:textSize="15sp"
+        android:textStyle="bold"
+        ></TextView>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:layout_below="@id/image"
+        android:layout_marginTop="10dp"
+        ></LinearLayout>
+
+</RelativeLayout>

@@ -187,7 +187,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void uploadImageToFirebaseStorage(Uri imageUri) {
-        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        String userId = MainActivity.userId;
         StorageReference storageRef = FirebaseStorage.getInstance().getReference()
                 .child("profile_pictures")
                 .child(userId + ".jpg");
@@ -202,7 +202,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                             });
                 })
                 .addOnFailureListener(e -> {
-                    // Handle image upload failure
                 });
         setpfp();
     }
