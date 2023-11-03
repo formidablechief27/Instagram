@@ -13,5 +13,5 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "Instagram"
+rootProject.name = "Metagram"
 include ':app'
