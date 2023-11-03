@@ -2,61 +2,105 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/black"
-    android:layout_marginTop="10dp"
+    android:background="#EEEFF1"
+    android:layout_margin="16dp"
     xmlns:tools="http://schemas.android.com/tools">
 
     <ImageView
+        android:id="@+id/image"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:id="@+id/image"
-        >
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
     </ImageView>
 
     <TextView
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
         android:id="@+id/name"
-        android:layout_marginLeft="20dp"
-        android:textColor="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/image"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="-37dp"
         android:layout_toEndOf="@id/image"
-        tools:text="Name"
+        android:text="Name"
+        android:textColor="#000000"
         android:textSize="20sp"
-        android:textStyle="bold"
-        ></TextView>
+        android:textStyle="bold"></TextView>
 
     <ImageView
         android:id="@+id/showimage"
-        android:layout_width="250dp"
+        android:layout_width="match_parent"
         android:layout_height="250dp"
         android:layout_below="@id/name"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="20dp"
-        android:layout_toEndOf="@id/image"></ImageView>
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginEnd="16dp"></ImageView>
 
     <TextView
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
         android:id="@+id/caption"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="20dp"
-        android:textColor="@color/white"
-        android:layout_toEndOf="@id/image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@id/showimage"
-        tools:text="Caption : "
+        android:layout_marginStart="-45dp"
+        android:layout_marginTop="12dp"
+        android:layout_toEndOf="@id/image"
+        android:text="Caption:"
+        android:textColor="#000000"
         android:textSize="15sp"
-        android:textStyle="bold"
-        ></TextView>
-
+        android:textStyle="bold"></TextView>
 
     <LinearLayout
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/caption"
+        android:layout_marginTop="17dp"
+        android:layout_marginLeft="17dp"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+            <ImageView
+                android:id="@+id/like"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_below="@id/caption"
+                android:layout_toEndOf="@id/image"
+                android:src="@drawable/like_default"></ImageView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/likes"
+                android:textColor="@color/black"
+                android:layout_gravity="center"
+                android:text="0"
+                android:textStyle="bold"
+                ></TextView>
+        </LinearLayout>
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginBottom="20dp"
+            android:src="@drawable/baseline_comment_24"
+            android:id="@+id/comment"
+            android:layout_marginLeft="30dp"
+            ></ImageView>
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginBottom="20dp"
+            android:src="@drawable/baseline_save_24"
+            android:id="@+id/save"
+            android:layout_marginLeft="30dp"
+        ></ImageView>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
         android:layout_height="5dp"
         android:layout_below="@id/image"
-        android:layout_marginTop="10dp"
-        ></LinearLayout>
+        android:layout_marginTop="37dp"></View>
 
 </RelativeLayout>
